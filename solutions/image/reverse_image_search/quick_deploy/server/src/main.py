@@ -8,7 +8,7 @@ from starlette.responses import FileResponse
 from encode import Resnet50
 from milvus_helpers import MilvusHelper
 from mysql_helpers import MySQLHelper
-from config import TOP_K, UPLOAD_PATH
+from config import TOP_K, UPLOAD_PATH, PORT
 from operations.load import do_load
 from operations.upload import do_upload
 from operations.search import do_search
@@ -27,8 +27,9 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
-
+    allow_hosts=["*"],
 )
+
 MODEL = Resnet50()
 MILVUS_CLI = MilvusHelper()
 MYSQL_CLI = MySQLHelper()
@@ -142,4 +143,4 @@ async def drop_tables(table_name: str = None):
 
 
 if __name__ == '__main__':
-    uvicorn.run(app=app, host='0.0.0.0', port=5000)
+    uvicorn.run(app=app, host='0.0.0.0', port=PORT)

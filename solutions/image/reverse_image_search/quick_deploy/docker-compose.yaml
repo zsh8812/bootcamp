@@ -62,21 +62,22 @@ services:
 
   webserver:
     container_name: img-search-webserver
-    image: milvusbootcamp/img-search-server:towhee0.6
+    image: docker.io/milvusbootcamp/img-search-server:towhee0.6_all
     networks:
       app_net:
         ipv4_address: 172.16.238.12
     environment:
       MILVUS_HOST: '172.16.238.10'
       MYSQL_HOST: '172.16.238.11'
+      PORT: 5000
     volumes:
-      - ./data:/data
+      - /Users/bytedance/mycode/bootcamp/solutions/image/reverse_image_search/quick_deploy/data:/data
     restart: always
     depends_on:
       - standalone
       - mysql
     ports:
-      - "5000:5000"
+      - "9000:5000"
 
   webclient:
     container_name: img-search-webclient
@@ -85,11 +86,11 @@ services:
       app_net:
         ipv4_address: 172.16.238.13
     environment:
-      API_URL: 'http://127.0.0.1:5000'
+      API_URL: 'http://127.0.0.1:9000'
     ports:
       - "8001:80"
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://127.0.0.1:8001"]
+      test: ["CMD", "curl", "-f", "http://127.0.0.1:80"]
       interval: 30s
       timeout: 20s
       retries: 3

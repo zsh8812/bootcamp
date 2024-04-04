@@ -21,3 +21,6 @@ UPLOAD_PATH = os.getenv("UPLOAD_PATH", "tmp/search-images")
 
 ############### Number of log files ###############
 LOGS_NUM = int(os.getenv("logs_num", "0"))
+
+############### Server Configuration ###############
+PORT = int(os.getenv("PORT", "5000"))
